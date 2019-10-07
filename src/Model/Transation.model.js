@@ -1,23 +1,27 @@
 const mongoose = require('../Server/database');
 const uuid = require('uuid/v4');
 
-const TransanctionSchema = new mongoose.Schema({
+const TransationSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
   },
   _id: {
-    type: uuid,
-    default: uuid()
-  },
-  value: {
-    type: Number,
-    required: true
+    type: String,
+    default: uuid
   },
   description: {
     type: String,
     required: true,
     lowercase: true
+  },
+  value: {
+    type: Number,
+    required: true
+  },
+  transationType: {
+    type: String,
+    required: true
   },
   date: {
     type: Date,
@@ -25,6 +29,6 @@ const TransanctionSchema = new mongoose.Schema({
   },
 })
 
-const Transaction = mongoose.model('Transaction', TransanctionSchema);
+const Transation = mongoose.model('Transation', TransationSchema);
 
-module.exports = Transaction
+module.exports = Transation

@@ -39,9 +39,11 @@ module.exports = {
         return res.status(404).json({error: "Invalid email or password"})
       }
       const now = new Date()
-      user.password = undefined;
+      // atualizando hora do ultimo login efetuado
       user.updatedAt = now
-      
+      await user.save()
+      user.password = undefined;
+
       return res.json({
         user,
         token: generateToken({id: user.id})})
@@ -49,6 +51,15 @@ module.exports = {
       return res.status(400).json({ error: "Something went wrong " + error})
     }
   },
-  
+  async show(req,res){
+    try {
+      const user = await User.findById(req.userId)
+      
+      return res.json(user)
+    } catch (error) {
+      return res.status(401).json({error: "Something went wrong, please try authenticate one more time " + error})
+    }
+    
+  },
   
 }
